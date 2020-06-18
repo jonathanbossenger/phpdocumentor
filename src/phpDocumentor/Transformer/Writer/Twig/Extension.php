@@ -21,6 +21,8 @@ use phpDocumentor\Descriptor\DescriptorAbstract;
 use phpDocumentor\Descriptor\NamespaceDescriptor;
 use phpDocumentor\Descriptor\PackageDescriptor;
 use phpDocumentor\Descriptor\ProjectDescriptor;
+use phpDocumentor\Reflection\DocBlock\Description;
+use phpDocumentor\Reflection\DocBlock\Tags\See;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
 use Twig\TwigFilter;
@@ -271,6 +273,21 @@ final class Extension extends AbstractExtension implements ExtensionInterface, G
                     return var_export($var, true);
                 }
             ),
+            'description' => new TwigFilter(
+                'description',
+                static function (Description $description) use ($routeRenderer) {
+
+                    $tagStrings = [];
+
+                    foreach ($description->getTags() as $tag) {
+                        if ($tag instanceof See) {
+                            $tagStrings[] = $routeRenderer->render($tag->getReference(), LinkRenderer::PRESENTATION_CLASS_SHORT);
+                        }
+                    }
+
+                    return vprintf($description->getBodyTemplate(), $tagStrings);
+                }
+            )
         ];
     }
 }
