@@ -1,5 +1,5 @@
 {
-    "name": "phpdocumentor/phpdocumentor",
+    "name": "jonathanbossenger/phpdocumentor",
     "description": "Documentation Generator for PHP",
     "keywords": ["documentation", "api", "dga", "application", "phpdoc"],
     "homepage": "https://www.phpdoc.org",
